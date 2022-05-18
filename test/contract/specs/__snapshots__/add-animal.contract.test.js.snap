@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Animal Service When a request to add an animal is made should return the correct data 1`] = `"{name: 'addedAnimal', breed: 'addedAnimalBreed', gender: 'Female', vaccinated: false,}"`;
