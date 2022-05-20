@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Animal Service When a request to delete an animal with name = Bigotes is made should return the correct data 1`] = `""`;
