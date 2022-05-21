@@ -33,8 +33,12 @@ describe("Animal Service", () => {
     });
   });
   describe("When a request to add an animal is made", () => {
-    let animalBody =
-      "{name: 'addedAnimal', breed: 'addedAnimalBreed', gender: 'Female', vaccinated: false,}";
+    let animalBody = {
+      name: "addedAnimal",
+      breed: "addedAnimalBreed",
+      gender: "Female",
+      vaccinated: false,
+    };
     beforeEach(async () => {
       await provider.addInteraction({
         uponReceiving: "a request to add an animal",
@@ -67,7 +71,7 @@ describe("Animal Service", () => {
           path: "/animals/bigotes",
         },
         willRespondWith: {
-          status: 200,
+          status: 204,
         },
       });
     });
@@ -88,12 +92,12 @@ describe("Animal Service", () => {
         },
         willRespondWith: {
           status: 200,
-          body: Matchers.eachLike({
+          body: {
             name: "Bigotes",
             breed: Matchers.like("Bengali"),
             gender: Matchers.like("Female"),
             vaccinated: Matchers.boolean(true),
-          }),
+          },
         },
       });
     });
@@ -103,14 +107,22 @@ describe("Animal Service", () => {
       await provider.verify();
     });
   });
-  describe("'When a request to list all animals is made", () => {
+  describe("When a request to update an animal with name = Manchas", () => {
+    let animalBody = {
+      name: "manchas",
+      breed: "Bengali",
+      gender: "Female",
+      vaccinated: true,
+      vaccines: ["lupus", "rabia"],
+    };
     beforeEach(async () => {
       await provider.addInteraction({
         uponReceiving: "a request to update an animal",
-        state: "updates the animal with name = animalToUpdate",
+        state: "updates the animal with name = Manchas",
         withRequest: {
           method: "PUT",
           path: "/animals/manchas",
+          body: animalBody,
         },
         willRespondWith: {
           status: 200,
@@ -127,7 +139,10 @@ describe("Animal Service", () => {
     });
 
     test("should return the correct data", async () => {
-      const response = await AnimalController.updateAnimal("manchas");
+      const response = await AnimalController.updateAnimal(
+        "manchas",
+        animalBody
+      );
 
       expect(response.data).toMatchSnapshot();
       await provider.verify();
